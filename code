@@ -1,0 +1,66 @@
+import java.util.*;
+public class Main {
+    /**
+     * @param args the command line arguments
+     */
+    //carry out calculations or circular items
+    //such as a circle, a sphere, a cone, a column
+    public static void main(String[] args) {
+
+        String[][] deckOfCards = new String[4][13];
+        String[] numbers = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+        String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
+        String[] hands = {"A", "B", "C", "D"};
+
+        // Fill the deck with cards
+        for (int suit = 0; suit < suits.length; suit++) {
+            for (int number = 0; number < numbers.length; number++) {
+                deckOfCards[suit][number] = numbers[number] + " of " + suits[suit];
+            }
+        }
+
+        // Shuffle the deck
+        shuffleDeck(deckOfCards);
+
+        // Deal out 4 hands of 5 cards each
+        String[][] dealtHands = dealHands(deckOfCards, hands.length, 5);
+
+        // Show the hands
+        for (int i = 0; i < hands.length; i++) {
+            System.out.println("Hand " + hands[i] + ":");
+            for (int j = 0; j < dealtHands[i].length; j++) {
+                System.out.println(dealtHands[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+    // Shuffle deck
+    public static void shuffleDeck(String[][] deck) {
+        Random random = new Random();
+        for (int i = deck.length - 1; i > 0; i--) {
+            for (int j = deck[i].length - 1; j > 0; j--) {
+                int m = random.nextInt(i + 1);
+                int n = random.nextInt(j + 1);
+
+                String temp = deck[i][j];
+                deck[i][j] = deck[m][n];
+                deck[m][n] = temp;
+            }
+        }
+    }
+
+    // Deal hands from the deck
+    public static String[][] dealHands(String[][] deck, int numHands, int cardsPerHand) {
+        String[][] hands = new String[numHands][cardsPerHand];
+        int cardIndex = 0;
+        for (int i = 0; i < numHands; i++) {
+            for (int j = 0; j < cardsPerHand; j++) {
+                hands[i][j] = deck[cardIndex / 13][cardIndex % 13];
+                cardIndex++;
+            }
+        }
+        return hands;
+    }
+
+}
